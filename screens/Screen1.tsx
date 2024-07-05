@@ -10,7 +10,7 @@ export default function Screen1() {
   const [categoria, setCategoria] = useState("");
   const [descripcion, setDescripcion] = useState("");
 
-  // Función para guardar datos en Firebase
+
   function guardarCompras(id:string, monto:string, categoria:string, descripcion:string) {
     try {
       set(ref(db, 'usuarios/' + id), {
@@ -24,7 +24,7 @@ export default function Screen1() {
       Alert.alert('Error', 'No se pudo almacenar la compra');
     }
   
-    // Limpiar los estados después de guardar
+    
     setId('');
     setMonto('');
     setCategoria('');
