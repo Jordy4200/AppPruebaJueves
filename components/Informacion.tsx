@@ -2,13 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 export default function Informacion(props:any) {
+  console.log(props.data.monto);
   return (
+    
     <View>
-      <Text></Text>
-      <Text>{props.data.id}</Text>
-      <Text>{props.data.categoria}</Text>
-      <Text>{props.data.descripcion}</Text>
-      <Text>{props.data.monto}</Text>
+      <Text>Si bro </Text>
     </View>
   )
 }

@@ -14,13 +14,14 @@ export default function Screen3() {
   const [lista, setlista] = useState([])
   const [visible, setvisible] = useState(false)
 
+  
   function leer(){
-    const starCountRef = ref(db, 'usuarios/');  
-  onValue(starCountRef, (snapshot) => {
+    const starCountRef = ref(db, 'usuarios/');  //linea ruta para leer datos
+    onValue(starCountRef, (snapshot) => {
     const data = snapshot.val();
     console.log(data);
   
-    
+    //CAMBIO DE FORMATO DE LOS DATOS
     const listaTemp:any =Object.keys(data).map((id)=>({
       key: id, ...data[id]
     }))
@@ -29,7 +30,7 @@ export default function Screen3() {
     setlista(listaTemp)
     
   });
-
+  }
 
   useEffect(() => {
     leer()
@@ -39,8 +40,8 @@ export default function Screen3() {
   function eliminar(id: string){
     remove(ref(db, 'usuarios/' + id))
     .then(() => {
-      Alert.alert('Mensaje', 'Compra Eliminada');
-      leer(); 
+      Alert.alert('Mensaje', 'Usuario Eliminado');
+      leer(); // Volver a leer los datos para actualizar la lista
     })
     .catch((error) => {
       console.log(error);
@@ -72,7 +73,6 @@ export default function Screen3() {
     setvisible(false);
   }
   
-  }
 
   function editar2(item: any){
     setId(item.key);
@@ -97,18 +97,27 @@ export default function Screen3() {
     <View style={styles.container}>
       <Text> sdasd
       </Text>
+      <Button title='Editar' color={'#3fbcd5'} />
       <FlatList
         data={lista}
         renderItem={({item}:{item:Usuario})=>
-     <View >
-      <Informacion  data={item}/>
-      
-      <Button title='Editar' color={'#3fbcd5'} onPress={ ()=> editar2(item)} />
-
-      
-     </View>
+        <View style={styles.item}>
+        <Informacion data={item} />
+        <Button title='Editar' color={'#3fbcd5'} onPress={ ()=> editar2(item)} />
+        </View>
+        
         }
       />
+      <FlatList
+        style={{marginTop:150}}
+        data={lista}
+        renderItem={({item}:{item:Usuario})=>
+          <View >   
+            <Text>{item.monto}</Text>
+          </View>
+        }
+      />
+  <Text>asdasd</Text>
     </View>
    );
   }
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
   },
   card: {
         
-    backgroundColor: '#8be9e1',
+    backgroundColor: 'red',
     marginVertical: 10,
     width: '100%',
     justifyContent: 'center',
@@ -134,5 +143,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
 
+  },
+  item:{
+    color:"white",
+    backgroundColor:"red",
+    margin:10,
+    justifyContent:"space-between",
+    flexDirection:"row",
   },
 })
