@@ -1,4 +1,4 @@
-import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native'
+import { Alert, Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 // La base de datos
@@ -113,13 +113,42 @@ export default function Screen3() {
   
   return (
     <View style={styles.container}>
+      <Text>-Compras-</Text>
+      <TextInput
+        placeholder='Ingrese Cédula'
+        style={styles.txt}
+        keyboardType='numeric'
+        onChangeText={(texto)=>setId(texto)}
+        value={id}
+      />
+      <TextInput
+        placeholder='Ingrese Monto'
+        style={styles.txt}
+        onChangeText={(texto)=>setMonto(texto)}
+        value={monto}
+      />
+      <TextInput
+        placeholder='Ingrese Categoria'
+        style={styles.txt}
+        onChangeText={(texto)=>setCategoria(texto)}
+        value={categoria}
+      />
+      <TextInput
+        placeholder='Ingrese Descripcion'
+        style={styles.txt}
+        onChangeText={(texto)=>setDescripcion(texto)}
+        value={descripcion}
+      />
+      <View style={styles.buttonContainer}>
+      <Button title='EDITAR' onPress={() => editar(id)} />
+      </View>
       <FlatList
         data={lista}
         renderItem={({item}:{item:Usuario})=>
           <View style={styles.item}>
             <Informacion data={item} />
             <View style={styles.buttonContainer}>
-            <Button title='Editar' color={'#3fbcd5'} onPress={() => editar(id)} />
+            <Button title='Editar' color={'#3fbcd5'} onPress={() => editar2(item)} />
             <Button title='Eliminar' color={'#ff6347'} onPress={() => eliminar(item.key)} />
             </View>
           </View>
@@ -173,5 +202,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around', 
     marginTop: 10, 
     paddingHorizontal: 10, 
+  },
+  txt: {
+    backgroundColor: '#E0F7FA',
+    height: 35,
+    width: '80%',
+    marginVertical: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    fontSize: 16,
   },
 });
