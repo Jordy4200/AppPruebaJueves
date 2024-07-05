@@ -6,7 +6,9 @@ export default function Informacion(props:any) {
   return (
     
     <View>
-      <Text>Si bro </Text>
+      <Text>{props.data.monto}</Text>
+      <Text>{props.data.categoria}</Text>
+      <Text>{props.data.descripcion}</Text>
     </View>
   )
 }

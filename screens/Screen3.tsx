@@ -38,16 +38,33 @@ export default function Screen3() {
 
 
   function eliminar(id: string){
-    remove(ref(db, 'usuarios/' + id))
-    .then(() => {
-      Alert.alert('Mensaje', 'Usuario Eliminado');
-      leer(); // Volver a leer los datos para actualizar la lista
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    
+    Alert.alert(
+      "Confirmación",
+      "¿Estás seguro de que quieres eliminar este usuario?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Eliminación cancelada"),
+          style: "cancel"
+        },
+        { 
+          text: "Eliminar", 
+          onPress: () => {
+            remove(ref(db, 'usuarios/' + id))
+            .then(() => {
+              Alert.alert('Mensaje', 'Usuario Eliminado');
+              leer(); 
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          } 
+        }
+      ],
+      { cancelable: false }
+    );
   }
+
 
 
   function editar(id: string){
@@ -90,65 +107,71 @@ export default function Screen3() {
     monto: string,
     categoria: string,
     descripcion: string
+    key:string
   };
 
   
   return (
     <View style={styles.container}>
-      <Text> sdasd
-      </Text>
-      <Button title='Editar' color={'#3fbcd5'} />
       <FlatList
         data={lista}
         renderItem={({item}:{item:Usuario})=>
-        <View style={styles.item}>
-        <Informacion data={item} />
-        <Button title='Editar' color={'#3fbcd5'} onPress={ ()=> editar2(item)} />
-        </View>
-        
-        }
-      />
-      <FlatList
-        style={{marginTop:150}}
-        data={lista}
-        renderItem={({item}:{item:Usuario})=>
-          <View >   
-            <Text>{item.monto}</Text>
+          <View style={styles.item}>
+            <Informacion data={item} />
+            <View style={styles.buttonContainer}>
+            <Button title='Editar' color={'#3fbcd5'} onPress={() => editar(id)} />
+            <Button title='Eliminar' color={'#ff6347'} onPress={() => eliminar(item.key)} />
+            </View>
           </View>
         }
       />
-  <Text>asdasd</Text>
     </View>
-   );
-  }
+  );
+}
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 100, 
-    alignItems:'center'
+    backgroundColor: '#f5f5f5', 
+    paddingTop: 50, 
+    alignItems: 'center'
   },
-  card: {
-        
-    backgroundColor: 'red',
-    marginVertical: 10,
-    width: '100%',
-    justifyContent: 'center',
-    
-    shadowColor: '#19398f',
+  item: {
+    backgroundColor: '#ffffff', 
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    borderRadius: 5, 
+    padding: 20, 
+    marginVertical: 8, 
+    marginHorizontal: 16, 
+    flexDirection: 'column',
+    justifyContent: 'space-between', 
+    alignItems: 'stretch', 
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 2,
-
+    shadowOpacity: 0.1, 
+    shadowRadius: 3,
+    elevation: 3, 
   },
-  item:{
-    color:"white",
-    backgroundColor:"red",
-    margin:10,
-    justifyContent:"space-between",
-    flexDirection:"row",
+  
+  buttonEditar: {
+    backgroundColor: '#3fbcd5', 
+    padding: 10,
+    borderRadius: 5,
   },
-})
+  buttonEliminar: {
+    backgroundColor: '#ff6347', 
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#ffffff', 
+    fontWeight: 'bold', 
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around', 
+    marginTop: 10, 
+    paddingHorizontal: 10, 
+  },
+});
